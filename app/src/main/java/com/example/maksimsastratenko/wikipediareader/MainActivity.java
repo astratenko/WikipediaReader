@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
-                String shareBody = "Body";
+                String shareBody = "Check this out " + currentUrl;
                 String shareSub = "Subject";
                 intent.putExtra(Intent.EXTRA_TEXT, shareBody);
                 intent.putExtra(Intent.EXTRA_SUBJECT, shareSub);
