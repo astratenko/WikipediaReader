@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 public class FavoritesActivity extends AppCompatActivity {
-
     private ListView list;
 
     @Override
@@ -27,12 +26,11 @@ public class FavoritesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_favorites);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //TODO Change ArrayList to Map
+        //TODO Change ArrayList to HashMap
         List<String> listArr = new ArrayList<>();
         for (Map.Entry<String, String> entry : MainActivity.favoritesList.entrySet()) {
             String string1 = entry.getKey() + " " + entry.getValue();
             listArr.add(string1);
-            //String value = entry.getValue();
         }
         printFavoritesList(listArr);
 

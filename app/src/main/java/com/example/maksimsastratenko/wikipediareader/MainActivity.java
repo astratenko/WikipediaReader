@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private Button share;
     public String currentUrl;
     public String currentTitle;
-    //bad solution
+    //TODO add DB
     public static Map<String, String> favoritesList = new HashMap<>();
 
     @Override
@@ -75,16 +75,15 @@ public class MainActivity extends AppCompatActivity {
                 //check for uniqueness of the article
                 if (favoritesList.isEmpty()) {
                     favoritesList.put(currentTitle, currentUrl);
+                    Toast.makeText(MainActivity.this, "Adding to favorites...", Toast.LENGTH_SHORT).show();
                 } else {
                     for (Map.Entry<String, String> entry : favoritesList.entrySet()) {
                         if (entry.getKey() != currentTitle) {
                             favoritesList.put(currentTitle, currentUrl);
-                            //Toast.makeText(MainActivity.this, "Adding to favorites...", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Adding to favorites...", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
-
-
             }
         });
 
@@ -93,8 +92,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
-                String shareBody = "Your body here";
-                String shareSub = "Your Subject here";
+                String shareBody = "Body";
+                String shareSub = "Subject";
                 intent.putExtra(Intent.EXTRA_TEXT, shareBody);
                 intent.putExtra(Intent.EXTRA_SUBJECT, shareSub);
                 startActivity(Intent.createChooser(intent, "Share Using"));
