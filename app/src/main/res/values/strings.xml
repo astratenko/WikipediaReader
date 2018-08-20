@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">WikipediaReader</string>
     <string name="favorites">Favorites</string>
+    <string-array name="languages">
+        <item>ENG</item>
+        <item>RUS</item>
+        <item>LAT</item>
+    </string-array>
 </resources>

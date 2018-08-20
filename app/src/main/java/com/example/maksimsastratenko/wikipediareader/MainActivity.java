@@ -3,7 +3,6 @@ package com.example.maksimsastratenko.wikipediareader;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -11,26 +10,29 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.zip.Inflater;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Spinner languageSpinner;
     private WebView webView;
     private Button generateLinkButton;
     private Button favorites;
     private Button share;
-    public String currentUrl;
-    public String currentTitle;
+    private String currentUrl;
+    private String currentTitle;
     //TODO add DB
     public static Map<String, String> favoritesList = new HashMap<>();
+    private String wikiUrlENG = "https://en.wikipedia.org/wiki/Special:Random";
+    private String wikiUrlRUS = "https://ru.wikipedia.org/wiki/Special:Random";
+    private String wikiUrlLAT = "https://lv.wikipedia.org/wiki/Special:Random";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +43,12 @@ public class MainActivity extends AppCompatActivity {
         generateLinkButton = (Button) findViewById(R.id.generateLinkButton);
         favorites = (Button) findViewById(R.id.addToFavoritesButton);
         webView = (WebView) findViewById(R.id.webView);
+        languageSpinner = (Spinner) findViewById(R.id.languageSpinner);
+
 
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        webView.loadUrl("https://en.wikipedia.org/wiki/Special:Random");
+        webView.loadUrl(wikiUrlENG);
 
         webView.setWebViewClient(new WebViewClient() {
 
@@ -57,6 +61,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //language dropdown menu
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                MainActivity.this,
+                android.R.layout.simple_list_item_1,
+                getResources().getStringArray(R.array.languages));
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        languageSpinner.setAdapter(adapter);
+
+        languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                reloadPage();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 
         addListenerOnButton();
     }
@@ -65,7 +89,8 @@ public class MainActivity extends AppCompatActivity {
         generateLinkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                webView.loadUrl("https://en.wikipedia.org/wiki/Special:Random");
+                reloadPage();
+                //webView.loadUrl(wikiUrlENG);
             }
         });
 
@@ -99,6 +124,18 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(Intent.createChooser(intent, "Share Using"));
             }
         });
+    }
+
+    //Reloads the page depending on the language selected
+    private void reloadPage() {
+        String selectedLanguage = languageSpinner.getSelectedItem().toString();
+        if (selectedLanguage.equals("ENG")) {
+            webView.loadUrl(wikiUrlENG);
+        } else if (selectedLanguage.equals("RUS")) {
+            webView.loadUrl(wikiUrlRUS);
+        } else if (selectedLanguage.equals("LAT")) {
+            webView.loadUrl(wikiUrlLAT);
+        }
     }
 
     @Override
