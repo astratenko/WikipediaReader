@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">WikipediaReader</string>
+    <string name="favorites">Favorites</string>
+</resources>
