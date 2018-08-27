@@ -19,6 +19,10 @@ import android.widget.Toast;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.maksimsastratenko.wikipediareader.SettingsActivity.wikiUrlENG;
+import static com.example.maksimsastratenko.wikipediareader.SettingsActivity.wikiUrlRUS;
+import static com.example.maksimsastratenko.wikipediareader.SettingsActivity.wikiUrlLAT;
+
 public class MainActivity extends AppCompatActivity {
 
     private Spinner languageSpinner;
@@ -30,9 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private String currentTitle;
     //TODO add DB
     public static Map<String, String> favoritesList = new HashMap<>();
-    private String wikiUrlENG = "https://en.wikipedia.org/wiki/Special:Random";
-    private String wikiUrlRUS = "https://ru.wikipedia.org/wiki/Special:Random";
-    private String wikiUrlLAT = "https://lv.wikipedia.org/wiki/Special:Random";
+    public static String currentLanguage = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 reloadPage();
-                //webView.loadUrl(wikiUrlENG);
             }
         });
 
@@ -127,13 +128,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Reloads the page depending on the language selected
-    private void reloadPage() {
-        String selectedLanguage = languageSpinner.getSelectedItem().toString();
-        if (selectedLanguage.equals("ENG")) {
+    public void reloadPage()
+    {
+        //String selectedLanguage = languageSpinner.getSelectedItem().toString();
+        if (currentLanguage.equals("ENG")) {
             webView.loadUrl(wikiUrlENG);
-        } else if (selectedLanguage.equals("RUS")) {
+        } else if (currentLanguage.equals("RUS")) {
             webView.loadUrl(wikiUrlRUS);
-        } else if (selectedLanguage.equals("LAT")) {
+        } else if (currentLanguage.equals("LAT")) {
             webView.loadUrl(wikiUrlLAT);
         }
     }
@@ -154,6 +156,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.main_favorites:
                 Intent favoritesIntent = new Intent(this, FavoritesActivity.class);
                 this.startActivity(favoritesIntent);
+                return true;
+            case R.id.main_settings:
+                Intent settingsIntent = new Intent(this, SettingsActivity.class);
+                this.startActivity(settingsIntent);
                 return true;
         }
         return super.onOptionsItemSelected(item);

@@ -6,5 +6,9 @@
         android:title="@string/favorites"
         android:id="@+id/main_favorites"
         app:showAsAction="never" />
+    <item
+        android:title="@string/languages"
+        android:id="@+id/main_settings"
+        app:showAsAction="never" />
 
 </menu>
